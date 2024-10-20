@@ -1,50 +1,19 @@
-# React + TypeScript + Vite
+## Email Client Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This application allows users to view and manage emails.
 
-Currently, two official plugins are available:
+### Inputs
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application fetches email data from an external API. The API provides two endpoints:
 
-## Expanding the ESLint configuration
+- **Email List:** Retrieves a list of emails, paginated by page number.
+- **Email Body:** Retrieves the full body of a specific email based on its ID.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+The application also interacts with a persistent storage to cache email data.
 
-- Configure the top-level `parserOptions` property like this:
+### Outputs
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Email List:** Displays a list of emails with sender information, subject, and a short description. Users can filter the list by read, unread, or favorite emails.
+- **Email Body:** Displays the full content of a selected email, including the sender's name, subject, date, and body. Users can mark an email as a favorite or remove it from favorites.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+The application provides pagination to view multiple pages of emails and uses animation to indicate loading states while fetching data.
