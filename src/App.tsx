@@ -61,25 +61,28 @@ function App() {
     [setEmails, page]
   );
 
-  const onFilter = (condition: "read" | "favorite" | "unread" | "all") => {
-    const emails = localStorage.getItem(`emails-${page}`);
+  const onFilter = useCallback(
+    (condition: "read" | "favorite" | "unread" | "all") => {
+      const emails = localStorage.getItem(`emails-${page}`);
 
-    if (!emails) {
-      return;
-    }
+      if (!emails) {
+        return;
+      }
 
-    const parsedEmails: EmailType[] = JSON.parse(emails);
+      const parsedEmails: EmailType[] = JSON.parse(emails);
 
-    if (condition === "read") {
-      setEmails(parsedEmails.filter((email) => email.read));
-    } else if (condition === "favorite") {
-      setEmails(parsedEmails.filter((email) => email.favorite));
-    } else if (condition === "unread") {
-      setEmails(parsedEmails.filter((email) => !email.read));
-    } else {
-      setEmails(parsedEmails);
-    }
-  };
+      if (condition === "read") {
+        setEmails(parsedEmails.filter((email) => email.read));
+      } else if (condition === "favorite") {
+        setEmails(parsedEmails.filter((email) => email.favorite));
+      } else if (condition === "unread") {
+        setEmails(parsedEmails.filter((email) => !email.read));
+      } else {
+        setEmails(parsedEmails);
+      }
+    },
+    [page]
+  );
 
   return (
     <div className="bg-[#F4F5F9] p-10 space-y-7">
@@ -183,32 +186,36 @@ function App() {
                       }}
                     />
                   ))}
-
-                  <div className="flex">
-                    {Array.from({ length: 2 }).map((_, index, array) => (
-                      <button
-                        key={index}
-                        className={`${
-                          index === 0
-                            ? "rounded-l-lg"
-                            : index === array.length - 1
-                            ? "rounded-r-lg"
-                            : "rounded-none"
-                        } ${
-                          index + 1 === page && "bg-[#e1e4ea]"
-                        } border-2 border-[#cfd2dc] px-3 py-1`}
-                        onClick={() => setPage(index + 1)}
-                      >
-                        {index + 1}
-                      </button>
-                    ))}
-                  </div>
                 </>
               ) : (
-                <div className="flex items-center justify-center h-[90vh] w-full">
+                <div className="flex items-center justify-center h-[70vh] w-full">
                   <h2 className="text-4xl font-bold">No mail found</h2>
                 </div>
               )}
+
+              <div className="flex">
+                {Array.from({ length: 2 }).map((_, index, array) => (
+                  <button
+                    key={index}
+                    className={`${
+                      index === 0
+                        ? "rounded-l-lg"
+                        : index === array.length - 1
+                        ? "rounded-r-lg"
+                        : "rounded-none"
+                    } ${
+                      index + 1 === page && "bg-[#e1e4ea]"
+                    } border-2 border-[#cfd2dc] px-3 py-1`}
+                    onClick={() => {
+                      setPage(index + 1);
+
+                      setFilterType("");
+                    }}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
             </ul>
           )}
 
